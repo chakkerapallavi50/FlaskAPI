@@ -1,0 +1,9 @@
+PyMuPDF
+google-generativeai
+streamlit
+speechrecognition
+pyaudio
+textblob
+whisper
+torch
+pydub
