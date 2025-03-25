@@ -1,11 +1,13 @@
-import streamlit as st
 import google.generativeai as genai
 import fitz  # PyMuPDF
+import streamlit as st
 
 # Configure Gemini AI
 GEMINI_API_KEY = "AIzaSyB0jEXbWexwC4VH5aNL3GuSjffxyxWk3QI"  # Replace with your actual API key
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+
+# Use an available model
+model = genai.GenerativeModel("gemini-1.5-pro-latest")  # Use this instead of "gemini-pro"
 
 # Function to extract text from the provided PDF file
 def extract_text_from_pdf(pdf_path):
@@ -16,9 +18,8 @@ def extract_text_from_pdf(pdf_path):
         full_text += page.get_text("text")  # Extract text from each page
     return full_text
 
-# Define chat_page function correctly
+# Define chat_page function
 def chat_page():
-    
     pdf_path = "invoice_.pdf"  # Update with your actual PDF file path
 
     # Extract text from the PDF
@@ -50,7 +51,9 @@ def chat_page():
         else:
             # Create context for conversation
             chat_context = "\n".join([f"{role}: {msg}" for role, msg in st.session_state.chat_history])
-            prompt = (f"Using the extracted invoice data, answer the following question while remembering the chat contextif user greets you give response friendly and respond professionally,give accuarate results give only correct answers if  the questiuon is out of context reply-i dont know:\n\n"
+            prompt = (f"Using the extracted invoice data, answer the following question while remembering the chat context. "
+                      f"If the user greets you, respond in a friendly way. Respond professionally, give accurate results, and only provide correct answers. "
+                      f"If the question is out of context, reply: 'I don't know'.\n\n"
                       f"{chat_context}\n\nUser: {user_input}\n\nInvoice Data:\n{extracted_text}")
 
             # Generate response using Gemini AI
@@ -67,3 +70,7 @@ def chat_page():
             # Store conversation in chat history
             st.session_state.chat_history.append(("user", user_input))
             st.session_state.chat_history.append(("bot", answer))
+
+# Run the Streamlit app
+if __name__ == "__main__":
+    chat_page()
