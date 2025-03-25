@@ -5,7 +5,7 @@ import fitz  # PyMuPDF
 # Configure Gemini AI
 GEMINI_API_KEY = "AIzaSyB0jEXbWexwC4VH5aNL3GuSjffxyxWk3QI"  # Replace with your actual API key
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Function to extract text from the provided PDF file
 def extract_text_from_pdf(pdf_path):
